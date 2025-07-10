@@ -1,4 +1,5 @@
 import { use } from "react";
+import {Link} from "react-router-dom";
 
 export const ShowPokemon = ({ promise, selected, setSelected }) => {
   const pokemons = use(promise);
@@ -30,7 +31,7 @@ export const ShowPokemon = ({ promise, selected, setSelected }) => {
           >
             <div
               onClick={() => toggleSelect(name)}
-              className={`cursor-pointer border-b border-gray-200 rounded-xl p-4 flex flex-col items-center
+              className={`cursor-pointer border-b border-gray-200 rounded-xl p-4 flex flex-col items-center5
                 `}
             >
               <img src={imgUrl} alt={name} className="w-24 h-24 mb-2" />
@@ -41,9 +42,11 @@ export const ShowPokemon = ({ promise, selected, setSelected }) => {
             </div>
 
             <div className="text-center">
+              <Link to={`/pokemon/${name}`}>
               <button className="text-black px-2 py-1 hover:text-indigo-600 cursor-pointer">
                 More Information
               </button>
+              </Link>
             </div>
           </section>
         );
