@@ -20,7 +20,8 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="/pokemon-details" element={<PokemonDetails />} />
+        {/* <Route path="/pokemon-details" element={<PokemonDetails />} /> */}
+         <Route path="/pokemon/:name" element={<PokemonDetails />} />
         <Route path="/myroster" element={<Roster />} />
         <Route path="/battle" element={<Battle />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
