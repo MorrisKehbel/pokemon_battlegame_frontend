@@ -33,7 +33,7 @@ export const getPokemon = async (abortSignal) => {
         return { pokemon: data };
       })
     );
-    // console.log(pokemons[1].pokemon.species);
+    // console.log(pokemons);
     return pokemons;
   } catch (error) {
     console.error("Error fetching Pokemon:", error);

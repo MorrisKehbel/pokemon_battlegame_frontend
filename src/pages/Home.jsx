@@ -1,31 +1,40 @@
-import { Suspense, useState } from "react";
-import { useLoaderData } from "react-router";
+import { Suspense } from "react";
 
 import { ShowPokemon } from "../components/page/ShowPokemon";
 import { Loading } from "../components/shared";
+import { createLeaderboardEntry } from "../data/leaderboard";
+import { usePlayer } from "../context/index";
 
 export const Home = () => {
-  const { pokemons } = useLoaderData();
-  const [playerName, setPlayerName] = useState("");
-  const [selected, setSelected] = useState([]);
+  const { playerName, setPlayerName, selected } = usePlayer();
 
-  const startBattle = () => {
-    if (playerName.trim().length === 0) {
-      alert("Please insert a player name!");
-      return;
-    }
-    if (selected.length < 6) {
-      alert("Please choose 6 Pokemon!");
-      return;
-    }
-    if (selected.length === 6 && playerName.trim().length > 0) {
+  const startBattle = async (e) => {
+    try {
+      e.preventDefault();
+      if (playerName.trim().length === 0) {
+        alert("Please insert a player name!");
+        return;
+      }
+      if (selected.length < 6) {
+        alert("Please choose 6 Pokemon!");
+        return;
+      }
+      if (selected.length === 6 && playerName.trim().length > 0) {
+        await createLeaderboardEntry({
+          username: playerName,
+          score: 0,
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
       console.log("Trainer", playerName, "with Team:", selected);
     }
   };
 
   return (
     <main className="min-h-screen content-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
-      <div className="max-w-7xl flex flex-col mx-auto bg-white/60 backdrop-blur-md border border-white p-8 rounded-4xl space-y-12">
+      <div className="max-w-7xl flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl space-y-12 shadow-lg">
         <div className="w-full max-w-xl flex flex-col justify-center mx-auto">
           <h2 className="text-4xl font-extrabold text-gray-500 text-center mb-8 drop-shadow-lg">
             Welcome Trainer!
@@ -47,11 +56,7 @@ export const Home = () => {
             Select your team
           </h2>
           <Suspense fallback={<Loading />}>
-            <ShowPokemon
-              promise={pokemons}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            <ShowPokemon />
           </Suspense>
         </div>
 

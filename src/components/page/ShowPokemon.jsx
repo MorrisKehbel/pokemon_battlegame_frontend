@@ -1,8 +1,12 @@
-import { use } from "react";
-import {Link} from "react-router-dom";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 
-export const ShowPokemon = ({ promise, selected, setSelected }) => {
-  const pokemons = use(promise);
+import { usePlayer } from "../../context/index";
+import { pokemonsQuery } from "../../data";
+
+export const ShowPokemon = () => {
+  const { selected, setSelected } = usePlayer();
+  const { data: pokemons } = useSuspenseQuery(pokemonsQuery());
 
   const toggleSelect = (name) => {
     setSelected((prev) => {
@@ -31,7 +35,7 @@ export const ShowPokemon = ({ promise, selected, setSelected }) => {
           >
             <div
               onClick={() => toggleSelect(name)}
-              className={`cursor-pointer border-b border-gray-200 rounded-xl p-4 flex flex-col items-center5
+              className={`cursor-pointer border-b border-gray-200 rounded-xl p-4 flex flex-col items-center
                 `}
             >
               <img src={imgUrl} alt={name} className="w-24 h-24 mb-2" />
@@ -43,9 +47,9 @@ export const ShowPokemon = ({ promise, selected, setSelected }) => {
 
             <div className="text-center">
               <Link to={`/pokemon/${name}`}>
-              <button className="text-black px-2 py-1 hover:text-indigo-600 cursor-pointer">
-                More Information
-              </button>
+                <button className="text-black px-2 py-1 hover:text-indigo-600 cursor-pointer">
+                  More Information
+                </button>
               </Link>
             </div>
           </section>
