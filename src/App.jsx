@@ -5,6 +5,8 @@ import {
   RouterProvider,
 } from "react-router";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import {
   Home,
   PokemonDetails,
@@ -14,21 +16,20 @@ import {
 } from "./pages/index";
 
 import { MainLayout } from "./layouts/MainLayout";
-import { loadPokemon } from "./data/index";
-import { Loading, Error } from "./components/shared/index";
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+});
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
-        <Route
-          index
-          loader={loadPokemon}
-          element={<Home />}
-          errorElement={<Error />}
-          hydrateFallbackElement={<Loading />}
-        />
+        <Route index element={<Home />} />
         <Route path="/pokemon/:name" element={<PokemonDetails />} />
         <Route path="/myroster" element={<Roster />} />
         <Route path="/battle" element={<Battle />} />
@@ -36,7 +37,11 @@ const App = () => {
       </Route>
     )
   );
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 };
 
 export default App;
