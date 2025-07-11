@@ -11,7 +11,7 @@ export const MainLayout = () => {
           <Outlet />
         </main>
       </PlayerProvider>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
