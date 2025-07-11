@@ -121,7 +121,7 @@ export const PokemonDetails = () => {
               <p className="text-gray-700 capitalize">{pokemon.weight}</p>
             </div>
 
-            <div className="w-full px-4 flex flex-col col-span-4">
+            <div className="w-full px-4 flex flex-col col-span-1 md:col-span-2 lg:col-span-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-2 capitalize">
                 Stats:
               </h2>
@@ -145,7 +145,7 @@ export const PokemonDetails = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-8 flex-wrap md:flex-nowrap">
             {pokemonAlt === null && (
               <button
                 onClick={() => toggleSelect(name)}
@@ -158,7 +158,7 @@ export const PokemonDetails = () => {
                   : "Add Pokemon to Roster"}
               </button>
             )}
-            <Link to="/">
+            <Link to="/" className="w-full md:w-auto">
               <button className="p-3 mt-1 w-full rounded-lg shadow bg-white capitalize text-gray-700 font-semibold text-lg cursor-pointer hover:bg-gray-100 ">
                 Return
               </button>
