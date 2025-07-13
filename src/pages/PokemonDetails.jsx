@@ -8,7 +8,6 @@ import { Loading } from "../components/shared";
 import { pokemonsQuery } from "../data";
 
 export const PokemonDetails = () => {
-  const { name } = useParams();
   const navigate = useNavigate();
   const { selected, setSelected } = usePlayer();
 
@@ -16,6 +15,7 @@ export const PokemonDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const { name } = useParams();
   const { data: pokemons } = useSuspenseQuery(pokemonsQuery());
   const entry = pokemons.find((p) => p.pokemon.name === name);
 
