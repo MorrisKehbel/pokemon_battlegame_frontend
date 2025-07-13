@@ -3,8 +3,9 @@ const API_URL = import.meta.env.VITE_API_URL;
 const baseURL = `${API_URL}/leaderboard`;
 
 export const createLeaderboardEntry = async (formData) => {
-  const res = await fetch(baseURL, {
+  const res = await fetch(`${baseURL}`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -18,5 +19,6 @@ export const createLeaderboardEntry = async (formData) => {
     throw new Error(errorData.error);
   }
   const data = await res.json();
+
   return data;
 };

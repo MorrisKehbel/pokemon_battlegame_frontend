@@ -20,15 +20,14 @@ export const ShowPokemon = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
       {pokemons.map(({ pokemon }) => {
         const name = pokemon.name;
         const imgUrl = pokemon.sprites.other["official-artwork"].front_default;
         const isSelected = selected.includes(name);
-
         return (
-          <section
-            key={name}
+          <div
+            key={pokemon.id}
             className={` bg-white rounded-xl shadow transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${
               isSelected ? "ring-4 ring-indigo-400" : "ring-0"
             }`}
@@ -52,9 +51,9 @@ export const ShowPokemon = () => {
                 </button>
               </Link>
             </div>
-          </section>
+          </div>
         );
       })}
-    </div>
+    </section>
   );
 };

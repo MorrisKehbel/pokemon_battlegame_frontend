@@ -1,39 +1,81 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import { PulseLoader } from "react-spinners";
 
 import { ShowPokemon } from "../components/page/ShowPokemon";
-import { Loading } from "../components/shared";
 import { createLeaderboardEntry } from "../data/leaderboard";
 import { usePlayer } from "../context/index";
 
 export const Home = () => {
-  const { playerName, setPlayerName, selected } = usePlayer();
+  const {
+    playerName,
+    setPlayerName,
+    selected,
+    isAuthenticated,
+    checkSession,
+    setCheckSession,
+  } = usePlayer();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!checkSession && isAuthenticated) {
+      navigate("/battle", { replace: true });
+    }
+  }, [checkSession, isAuthenticated, navigate]);
+
+  // if (checkSession) {
+  //   return (
+  //     <main className="min-h-screen flex items-center justify-center">
+  //       <PulseLoader />
+  //     </main>
+  //   );
+  // }
 
   const startBattle = async (e) => {
     try {
       e.preventDefault();
       if (playerName.trim().length === 0) {
-        alert("Please insert a player name!");
+        toast.error("Please insert a player name!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
         return;
       }
       if (selected.length < 6) {
-        alert("Please choose 6 Pokemon!");
+        toast.error("Please choose 6 Pokemon!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
         return;
       }
       if (selected.length === 6 && playerName.trim().length > 0) {
         await createLeaderboardEntry({
           username: playerName,
+          team: selected,
           score: 0,
         });
+        setCheckSession(true);
       }
     } catch (error) {
       console.log(error.message);
-    } finally {
-      console.log("Trainer", playerName, "with Team:", selected);
     }
   };
 
   return (
     <main className="min-h-screen content-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
+      <ToastContainer />
       <div className="max-w-7xl flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl space-y-12 shadow-lg">
         <div className="w-full max-w-xl flex flex-col justify-center mx-auto">
           <h2 className="text-4xl font-extrabold text-gray-500 text-center mb-8 drop-shadow-lg">
@@ -55,7 +97,13 @@ export const Home = () => {
           <h2 className="text-4xl font-extrabold text-gray-500 text-center mb-8 drop-shadow-lg">
             Select your team
           </h2>
-          <Suspense fallback={<Loading />}>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center">
+                <PulseLoader />
+              </div>
+            }
+          >
             <ShowPokemon />
           </Suspense>
         </div>
