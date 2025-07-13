@@ -71,8 +71,8 @@ export const PokemonDetails = () => {
   const isSelected = selected.includes(pokemon.name);
 
   return (
-    <main className="min-h-screen content-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
-      <div className="max-w-7xl flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl shadow-lg">
+    <main className="min-h-screen flex items-center justify-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
+      <div className="max-w-7xl w-full flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl shadow-lg">
         <h1 className="capitalize font-semibold text-gray-800 text-center text-2xl mb-6">
           {pokemon.name.toUpperCase()}
         </h1>
@@ -150,7 +150,7 @@ export const PokemonDetails = () => {
               <button
                 onClick={() => toggleSelect(name)}
                 className={`p-3 mt-1 w-full rounded-lg shadow bg-white capitalize text-gray-700 font-semibold text-lg cursor-pointer hover:bg-gray-100 ${
-                  isSelected ? "ring-4 ring-indigo-400" : "ring-0"
+                  isSelected ? "outline-4 outline-indigo-400" : "outline-0"
                 }`}
               >
                 {isSelected
