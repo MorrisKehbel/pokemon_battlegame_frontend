@@ -24,7 +24,7 @@ export const Battle = () => {
   }
 
   return (
-    <div className="min-h-screen flex justify-center mx-auto items-center">
+    <div className="min-h-screen flex justify-center bg-[url('/battle_img.webp')] bg-cover bg-center mx-auto items-center">
       <div className="">
         <button
           className="bg-gray-700 mx-auto cursor-pointer"

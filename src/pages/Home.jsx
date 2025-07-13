@@ -72,9 +72,9 @@ export const Home = () => {
   };
 
   return (
-    <main className="min-h-screen content-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
+    <main className="min-h-screen flex items-center justify-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
       <ToastContainer />
-      <div className="max-w-7xl flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl space-y-12 shadow-lg">
+      <div className="max-w-7xl w-full flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl space-y-12 shadow-lg">
         <div className="w-full max-w-xl flex flex-col justify-center mx-auto">
           <h2 className="text-4xl font-extrabold text-gray-500 text-center mb-8 drop-shadow-lg">
             Welcome Trainer!
