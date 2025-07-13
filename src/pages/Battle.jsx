@@ -12,7 +12,6 @@ export const Battle = () => {
   useEffect(() => {
     if (!checkSession && !isAuthenticated) {
       window.location.replace("/");
-      navigate("/", { replace: true });
     }
   }, [checkSession, isAuthenticated, navigate]);
 

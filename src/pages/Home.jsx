@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { PulseLoader } from "react-spinners";
 
 import { ShowPokemon } from "../components/page/ShowPokemon";
-import { createLeaderboardEntry } from "../data/leaderboard";
+import { createUser } from "../data/auth";
 import { usePlayer } from "../context/index";
 
 export const Home = () => {
@@ -41,7 +41,6 @@ export const Home = () => {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: true,
-          closeOnClick: true,
           pauseOnHover: false,
           progress: undefined,
           theme: "light",
@@ -53,7 +52,6 @@ export const Home = () => {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: true,
-          closeOnClick: true,
           pauseOnHover: false,
           progress: undefined,
           theme: "light",
@@ -61,7 +59,7 @@ export const Home = () => {
         return;
       }
       if (selected.length === 6 && playerName.trim().length > 0) {
-        await createLeaderboardEntry({
+        await createUser({
           username: playerName,
           team: selected,
           score: 0,
