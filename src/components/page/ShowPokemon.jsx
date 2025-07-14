@@ -6,7 +6,7 @@ import { pokemonsQuery } from "../../data";
 
 export const ShowPokemon = () => {
   const { selected, setSelected } = usePlayer();
-  const { data: pokemons } = useSuspenseQuery(pokemonsQuery());
+  const { data: pokemons } = useSuspenseQuery(pokemonsQuery(15));
 
   const toggleSelect = (name) => {
     setSelected((prev) => {
@@ -28,7 +28,7 @@ export const ShowPokemon = () => {
         return (
           <div
             key={pokemon.id}
-            className={`relative bg-white rounded-xl shadow transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${
+            className={`relative flex flex-col justify-between bg-white rounded-xl shadow transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${
               isSelected ? "outline-4 outline-indigo-400" : "outline-0"
             }`}
           >
@@ -38,7 +38,7 @@ export const ShowPokemon = () => {
                 `}
             >
               {isSelected && (
-                <span className="flex justify-center inset-0 text-center text-sm text-indigo-600 absolute">
+                <span className="flex justify-center inset-0 pointer-events-none text-center text-sm text-indigo-600 absolute">
                   Selected
                 </span>
               )}
