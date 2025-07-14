@@ -15,17 +15,6 @@ export const Battle = () => {
     }
   }, [checkSession, isAuthenticated, navigate]);
 
-  const handleBattleEnd = async () => {
-    const score = Math.floor(Math.random() * 100); // ya dynamic calculation ba'dan
-
-    try {
-      await postLeaderboard({ username: playerName, score });
-      navigate("/leaderboard");
-    } catch (error) {
-      console.error("Error saving score:", error.message);
-    }
-  };
-
   if (checkSession) {
     return (
       <main className="min-h-screen flex items-center justify-center">
@@ -42,12 +31,6 @@ export const Battle = () => {
           onClick={() => restart()}
         >
           Placeholder Restart
-        </button>
-        <button
-          className="bg-green-600 text-white px-6 py-3 rounded-lg cursor-pointer shadow-lg hover:bg-green-700"
-          onClick={handleBattleEnd}
-        >
-          Finish Battle (Save Score)
         </button>
       </div>
     </div>

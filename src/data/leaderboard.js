@@ -1,34 +1,34 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:3000/leaderboard";
 
-export const getLeaderboard = async () => {
+export const getAllLeaderboards = async () => {
   try {
-    const res = await fetch(`${API_URL}/leaderboard`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch leaderboard");
-    }
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error("Failed to fetch leaderboard");
     return await res.json();
-  } catch (error) {
-    console.error("Leaderboard fetch error:", error.message);
-    throw error;
+  } catch (err) {
+    console.error("getAllLeaderboards error:", err);
+    throw err;
   }
 };
 
-export const postLeaderboard = async ({ username, score }) => {
+export const postLeaderboard = async (entry) => {
   try {
-    const res = await fetch(`${API_URL}/leaderboard`, {
+    const res = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, score }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(entry),
     });
 
     if (!res.ok) {
-      const errData = await res.json();
-      throw new Error(errData.error || "Failed to save score");
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to create leaderboard entry");
     }
 
     return await res.json();
-  } catch (error) {
-    console.error("Leaderboard post error:", error.message);
-    throw error;
+  } catch (err) {
+    console.error("postLeaderboard error:", err);
+    throw err;
   }
 };
