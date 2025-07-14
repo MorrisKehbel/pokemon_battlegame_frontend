@@ -109,10 +109,11 @@ export const Home = () => {
         <div className="mx-auto">
           <button
             onClick={startBattle}
-            disabled={selected.length < 6}
+            disabled={selected.length < 6 || checkSession}
             className="px-8 py-4 bg-red-600 text-white rounded-full text-xl font-semibold shadow-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-default cursor-pointer"
           >
-            Start Battle ({selected.length}/6)
+            {checkSession && <PulseLoader size={8} />}
+            {!checkSession && `Start Battle (${selected.length}/6)`}
           </button>
         </div>
       </div>

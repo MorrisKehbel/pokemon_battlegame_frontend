@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+import { PulseLoader } from "react-spinners";
 import { usePlayer } from "../context/index";
-import { Loading } from "../components/shared";
 import { pokemonsQuery } from "../data";
 
 export const PokemonDetails = () => {
@@ -12,8 +12,6 @@ export const PokemonDetails = () => {
   const { selected, setSelected } = usePlayer();
 
   const [pokemonAlt, setPokemonAlt] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const { name } = useParams();
   const { data: pokemons } = useSuspenseQuery(pokemonsQuery());
@@ -21,23 +19,19 @@ export const PokemonDetails = () => {
 
   useEffect(() => {
     if (!entry) {
-      setLoading(true);
       axios
         .get(`https://pokeapi.co/api/v2/pokemon/${name}`)
         .then((res) => {
           setPokemonAlt(res.data);
-          setLoading(false);
         })
         .catch((err) => {
           console.error("Failed to fetch Pokémon details:", err);
-          setError(true);
-          setLoading(false);
         });
     }
   }, [entry, name]);
 
   if (!entry && pokemonAlt === null && !error) {
-    return <Loading />;
+    return <PulseLoader />;
   }
 
   if (!entry && error) {
