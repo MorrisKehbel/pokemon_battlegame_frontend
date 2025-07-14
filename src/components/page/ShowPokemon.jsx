@@ -1,8 +1,12 @@
-import { use } from "react";
-import {Link} from "react-router-dom";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 
-export const ShowPokemon = ({ promise, selected, setSelected }) => {
-  const pokemons = use(promise);
+import { usePlayer } from "../../context/index";
+import { pokemonsQuery } from "../../data";
+
+export const ShowPokemon = () => {
+  const { selected, setSelected } = usePlayer();
+  const { data: pokemons } = useSuspenseQuery(pokemonsQuery(15));
 
   const toggleSelect = (name) => {
     setSelected((prev) => {
@@ -16,41 +20,41 @@ export const ShowPokemon = ({ promise, selected, setSelected }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
       {pokemons.map(({ pokemon }) => {
         const name = pokemon.name;
         const imgUrl = pokemon.sprites.other["official-artwork"].front_default;
         const isSelected = selected.includes(name);
-
         return (
-          <section
-            key={name}
-            className={` bg-white rounded-xl shadow transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${
-              isSelected ? "ring-4 ring-indigo-400" : "ring-0"
+          <div
+            key={pokemon.id}
+            className={`relative flex flex-col justify-between bg-white rounded-xl shadow transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${
+              isSelected ? "outline-4 outline-indigo-400" : "outline-0"
             }`}
           >
             <div
               onClick={() => toggleSelect(name)}
-              className={`cursor-pointer border-b border-gray-200 rounded-xl p-4 flex flex-col items-center5
+              className={`cursor-pointer border-b border-gray-200 rounded-xl p-4 flex flex-col items-center
                 `}
             >
+              {isSelected && (
+                <span className="flex justify-center inset-0 pointer-events-none text-center text-sm text-indigo-600 absolute">
+                  Selected
+                </span>
+              )}
               <img src={imgUrl} alt={name} className="w-24 h-24 mb-2" />
               <p className="capitalize font-semibold text-gray-800">{name}</p>
-              {isSelected && (
-                <span className="mt-1 text-sm text-indigo-600">Selected</span>
-              )}
             </div>
-
             <div className="text-center">
               <Link to={`/pokemon/${name}`}>
-              <button className="text-black px-2 py-1 hover:text-indigo-600 cursor-pointer">
-                More Information
-              </button>
+                <button className="text-black px-2 py-1 hover:text-indigo-600 cursor-pointer">
+                  More Information
+                </button>
               </Link>
             </div>
-          </section>
+          </div>
         );
       })}
-    </div>
+    </section>
   );
 };
