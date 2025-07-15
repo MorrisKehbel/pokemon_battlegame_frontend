@@ -58,7 +58,7 @@ export const Battle = () => {
   // }, [user]);
 
   useEffect(() => {
-    if (!user.enemy) {
+    if (!user.enemy || user.enemy.length === 0) {
       (async () => {
         try {
           const enemy = await getPokemon(6);
@@ -75,7 +75,7 @@ export const Battle = () => {
           setNewRound(false);
         }
       })();
-    } else if (user.enemy) {
+    } else if (user.enemy?.length > 0) {
       (async () => {
         try {
           const newEnemy = await getTeam(user.enemy);
