@@ -1,6 +1,6 @@
-export const BattlePokemon = ({ pokemons }) => {
+export const ActivePokemon = ({ pokemons }) => {
   return (
-    <div className="grid md:grid-cols-2 2xl:grid-cols-5 grid-rows-1 bg-black/50 rounded-xl max-w-4xl">
+    <div className="grid grid-cols-1 grid-rows-1 bg-white/50 rounded-xl max-w-4xl">
       {pokemons.map(({ pokemon }) => {
         const name = pokemon.name;
         const imgUrl = pokemon.sprites.other["official-artwork"].front_default;
@@ -17,9 +17,19 @@ export const BattlePokemon = ({ pokemons }) => {
               <img
                 src={imgUrl}
                 alt={name}
-                className="w-24 h-24 mb-2 transform transition-all group-hover:scale-105"
+                className="w-48 h-48 mb-2 transform transition-all group-hover:scale-105"
               />
-              <p className="capitalize font-semibold text-white">{name}</p>
+              <p className="capitalize font-semibold text-black">{name}</p>
+              <div className="bg-gray-800/20 w-full rounded-2xl text-center mt-2">
+                <p className="font-mono text-gray-700">
+                  Health:
+                  {pokemon.stats[0].base_stat}
+                </p>
+                <p className="font-mono text-gray-700">
+                  Damage:
+                  {pokemon.stats[1].base_stat}
+                </p>
+              </div>
             </div>
           </div>
         );
