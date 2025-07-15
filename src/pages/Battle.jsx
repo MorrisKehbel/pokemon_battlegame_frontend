@@ -58,20 +58,36 @@ export const Battle = () => {
   // }, [user]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const enemy = await getPokemon(6);
-        setCurrentEnemys(enemy);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setNewRound(false);
-      }
-    })();
+    if (!user.enemy) {
+      (async () => {
+        try {
+          const enemy = await getPokemon(6);
+          setCurrentEnemys(enemy);
+          await updateLeaderboard(user._id, {
+            username: user.username,
+            team: user.team,
+            enemy: enemy.map(({ pokemon }) => pokemon.name),
+            score: user.score + 100,
+          });
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setNewRound(false);
+        }
+      })();
+    } else if (user.enemy) {
+      (async () => {
+        try {
+          const newEnemy = await getTeam(user.enemy);
+          setCurrentEnemys(newEnemy);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setNewRound(false);
+        }
+      })();
+    }
   }, [newRound]);
-
-  const activeTeam = [team[0]];
-  const activeEnemy = [team[0]];
 
   const startRound = async (e) => {
     e.preventDefault();
@@ -127,11 +143,11 @@ export const Battle = () => {
       {currentTeam && currentEnemys ? (
         <>
           <div className="grid grid-cols-3 max-w-7xl w-full my-auto items-center">
-            <BattlePokemon pokemons={activeTeam} />
-            <p className="text-lg lg:text-7xl font-extrabold text-white text-center">
+            <BattlePokemon pokemons={team.slice(0, 1)} />
+            <p className="text-2xl lg:text-7xl font-extrabold text-white text-center">
               VS
             </p>
-            <BattlePokemon pokemons={activeEnemy} />
+            <BattlePokemon pokemons={currentEnemys.slice(0, 1)} />
           </div>
 
           <div className="grid grid-cols-3 w-full my-auto items-center">
