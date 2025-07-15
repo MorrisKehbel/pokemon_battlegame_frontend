@@ -22,7 +22,7 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
   const [enemyHit, setEnemyHit] = useState(0);
 
   const [winner, setWinner] = useState(saved?.winner ?? null);
-  const [kills, setKills] = useState(0);
+  // const [kills, setKills] = useState(0);
   const [allDefeated, setAllDefeated] = useState(false);
 
   const pHpRef = useRef(playerHP);
@@ -50,7 +50,7 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
       eIdxRef.current = 0;
 
       setWinner(null);
-      setKills(0);
+      // setKills(0);
       setAllDefeated(false);
       setRoundOver(true);
     }
@@ -92,7 +92,7 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
             score: newScore,
           });
           setUser({ ...user, score: newScore });
-          setKills((k) => k + 1);
+          // setKills((k) => k + 1);
         } catch (err) {
           console.error("Leaderboard‑Update failed:", err);
         }
@@ -153,6 +153,7 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
     playerIdx,
     enemyIdx,
     roundOver,
+    winner,
     playerTeam.length,
     enemyTeam.length,
   ]);
@@ -167,7 +168,7 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
     isRunning,
     roundOver,
     allDefeated,
-    kills,
+    // kills,
     winner,
     startRound,
 
@@ -183,10 +184,11 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
       setEnemyHP([]);
       setPlayerIdx(0);
       setEnemyIdx(0);
-      setKills(0);
+      // setKills(0);
       setAllDefeated(false);
       setRoundOver(true);
       setIsRunning(false);
+      setWinner(null);
     },
   };
 }

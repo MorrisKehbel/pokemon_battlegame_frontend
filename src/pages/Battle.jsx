@@ -33,7 +33,6 @@ export const Battle = () => {
     isRunning,
     roundOver,
     allDefeated,
-    kills,
     startRound,
     resetFight,
     winner,
@@ -120,11 +119,9 @@ export const Battle = () => {
           <button
             className="px-8 py-4 bg-emerald-600 text-white rounded-full
                text-xl font-semibold shadow-lg hover:bg-emerald-700
-               disabled:opacity-50 disabled:cursor-default mx-auto"
+               disabled:opacity-50 disabled:cursor-default mx-auto cursor-pointer"
             onClick={winner ? handleNewOpponent : startRound}
-            disabled={
-              !teamsReady || isRunning || (!winner && roundOver === false)
-            }
+            disabled={!teamsReady || isRunning || (!winner && !roundOver)}
           >
             {winner ? "New Opponent" : isRunning ? "Fighting…" : "Start Round"}
           </button>
