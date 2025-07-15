@@ -5,12 +5,14 @@ import { PulseLoader } from "react-spinners";
 import { ShowPokemon } from "../components/page/ShowPokemon";
 import { createUser } from "../data/auth";
 import { usePlayer } from "../context/index";
+import { getPokemon } from "../data/getPokemon";
 
 export const Home = () => {
   const {
     playerName,
     setPlayerName,
     selected,
+    setSelected,
     isAuthenticated,
     checkSession,
     setCheckSession,
@@ -42,11 +44,18 @@ export const Home = () => {
         return;
       }
       if (selected.length === 6 && playerName.trim().length > 0) {
+        const firstEnemys = await getPokemon(6);
+        const enemyNames = firstEnemys.map(({ pokemon }) => pokemon.name);
+
         await createUser({
           username: playerName,
           team: selected,
+          enemy: enemyNames,
           score: 0,
         });
+
+        setPlayerName("");
+        setSelected([]);
         setCheckSession(true);
       }
     } catch (error) {
@@ -78,15 +87,25 @@ export const Home = () => {
           <h2 className="text-4xl font-extrabold text-gray-500 text-center mb-8 drop-shadow-lg">
             Select your team
           </h2>
-          <Suspense
-            fallback={
-              <div className="flex items-center justify-center">
-                <PulseLoader />
-              </div>
+          {checkSession ? (
+            <div className="flex items-center justify-center mx-auto">
+              <PulseLoader />
+            </div>
+          ) : isAuthenticated ? (
+            {
+              /* blocking 15er fetch*/
             }
-          >
-            <ShowPokemon />
-          </Suspense>
+          ) : (
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center">
+                  <PulseLoader />
+                </div>
+              }
+            >
+              <ShowPokemon />
+            </Suspense>
+          )}
         </div>
 
         <div className="mx-auto">

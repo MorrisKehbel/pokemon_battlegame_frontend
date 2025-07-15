@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { PlayerContext } from ".";
-import { me, signout } from "../data/auth";
+import { me } from "../data/auth";
 
 export const PlayerProvider = ({ children }) => {
   const [playerName, setPlayerName] = useState("");
@@ -11,12 +11,6 @@ export const PlayerProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [checkSession, setCheckSession] = useState(true);
-
-  const restart = async () => {
-    await signout();
-    setIsAuthenticated(false);
-    setUser(null);
-  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -59,7 +53,6 @@ export const PlayerProvider = ({ children }) => {
     setUser,
     checkSession,
     setCheckSession,
-    restart,
   };
 
   return (

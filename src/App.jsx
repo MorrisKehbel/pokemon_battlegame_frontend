@@ -3,6 +3,7 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
+  Navigate,
 } from "react-router";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -33,9 +34,10 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
         <Route index element={isAuthenticated ? <Battle /> : <Home />} />
-        <Route path="/pokemon/:name" element={<PokemonDetails />} />
-        <Route path="/myroster" element={<Roster />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="pokemon/:name" element={<PokemonDetails />} />
+        <Route path="myroster" element={<Roster />} />
+        <Route path="leaderboard" element={<Leaderboard />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     )
   );

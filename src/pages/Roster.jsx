@@ -1,9 +1,13 @@
+import { Link } from "react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { teamQuery } from "../data";
 import { usePlayer } from "../context";
 
+import { getPokemon } from "../data/getPokemon";
+import { updateLeaderboard } from "../data/leaderboard";
+
 export const Roster = () => {
-  const { user } = usePlayer();
+  const { user, setUser } = usePlayer();
 
   const { data: team } = useSuspenseQuery({
     ...teamQuery(user?.team),
@@ -18,6 +22,23 @@ export const Roster = () => {
     );
   }
 
+  const updatePokemon = async (pokemon) => {
+    const newPokemon = await getPokemon(1);
+
+    const updated = user.team.map((n) =>
+      n === pokemon ? newPokemon[0].pokemon.name : n
+    );
+
+    const data = await updateLeaderboard(user._id, {
+      username: user.username,
+      team: updated,
+      enemy: user.enemy,
+      score: user.score,
+    });
+
+    setUser(data);
+  };
+
   return (
     <main className="w-full flex items-center justify-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
       <div className="max-w-7xl w-full flex flex-col mx-auto bg-white/60 backdrop-blur-md border border-white p-8 rounded-4xl space-y-12">
@@ -30,25 +51,28 @@ export const Roster = () => {
             {team.map(({ pokemon }) => (
               <div
                 key={pokemon.name}
-                className="bg-white shadow rounded-xl p-4  flex flex-col items-center "
+                className="bg-white shadow rounded-xl p-4 flex flex-col items-center space-between"
               >
                 <img
                   src={pokemon.sprites.front_default}
                   alt={pokemon.name}
                   className="w-24 h-24 mb-3"
                 />
-                <h2 className="text-lg text-gray-800 font-semibold capitalize mb-1">
-                  {pokemon.name}
-                </h2>
+                <Link key={pokemon.id} to={`/pokemon/${pokemon.name}`}>
+                  <h2 className="text-lg text-gray-800 font-semibold capitalize mb-1">
+                    {pokemon.name}
+                  </h2>
+                </Link>
                 <p className="text-sm text-gray-600 capitalize mb-2">
                   Types: {pokemon.types.map((t) => t.type.name).join(", ")}
                 </p>
-                <div className="text-center">
+
+                <div className="text-center mt-auto">
                   <button
-                    onClick={() => removePokemon(pokemon.name)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:text-black hover:bg-blue-200"
+                    onClick={() => updatePokemon(pokemon.name)}
+                    className="text-white px-3 py-1 rounded bg-blue-400 hover:bg-blue-500 cursor-pointer"
                   >
-                    Remove
+                    Update
                   </button>
                 </div>
               </div>
