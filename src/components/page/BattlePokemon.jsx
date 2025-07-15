@@ -1,6 +1,6 @@
 export const BattlePokemon = ({ pokemons }) => {
   return (
-    <div className="grid grid-cols-3 grid-rows-2 bg-white/60 rounded-xl">
+    <div className="grid md:grid-cols-2 2xl:grid-cols-5 grid-rows-1 bg-black/50 rounded-xl">
       {pokemons.map(({ pokemon }) => {
         const name = pokemon.name;
         const imgUrl = pokemon.sprites.other["official-artwork"].front_default;
@@ -19,7 +19,7 @@ export const BattlePokemon = ({ pokemons }) => {
                 alt={name}
                 className="w-24 h-24 mb-2 transform transition-all group-hover:scale-105"
               />
-              <p className="capitalize font-semibold text-gray-800">{name}</p>
+              <p className="capitalize font-semibold text-white">{name}</p>
             </div>
           </div>
         );

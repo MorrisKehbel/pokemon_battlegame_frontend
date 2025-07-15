@@ -17,6 +17,7 @@ export const PokemonDetails = () => {
 
   const { name } = useParams();
   const { data: pokemons } = useSuspenseQuery(pokemonsQuery(15));
+
   const entry = pokemons.find((p) => p.pokemon.name === name);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export const PokemonDetails = () => {
   const isSelected = selected.includes(pokemon.name);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
+    <main className="w-full flex items-center justify-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
       <div className="max-w-7xl w-full flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl shadow-lg">
         <h1 className="capitalize font-semibold text-gray-800 text-center text-2xl mb-6">
           {pokemon.name.toUpperCase()}
