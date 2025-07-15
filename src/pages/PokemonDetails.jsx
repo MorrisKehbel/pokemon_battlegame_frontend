@@ -9,10 +9,9 @@ import { pokemonsQuery } from "../data";
 
 export const PokemonDetails = () => {
   const navigate = useNavigate();
-  const { selected, setSelected } = usePlayer();
+  const { selected, setSelected, isAuthenticated } = usePlayer();
 
   const [pokemonAlt, setPokemonAlt] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const { name } = useParams();
@@ -22,23 +21,24 @@ export const PokemonDetails = () => {
 
   useEffect(() => {
     if (!entry) {
-      setLoading(true);
       axios
         .get(`https://pokeapi.co/api/v2/pokemon/${name}`)
         .then((res) => {
           setPokemonAlt(res.data);
-          setLoading(false);
         })
         .catch((err) => {
           console.error("Failed to fetch Pokémon details:", err);
           setError(true);
-          setLoading(false);
         });
     }
   }, [entry, name]);
 
   if (!entry && pokemonAlt === null && !error) {
-    return <PulseLoader />;
+    return (
+      <div className="flex items-center justify-center mx-auto">
+        <PulseLoader />
+      </div>
+    );
   }
 
   if (!entry && error) {
@@ -57,16 +57,6 @@ export const PokemonDetails = () => {
       }
       return prev;
     });
-  };
-
-  const handleAddPokemonToRoster = () => {
-    const savedRoster = JSON.parse(localStorage.getItem("pokemonRoster")) || [];
-    const exists = savedRoster.find((p) => p.name === pokemon.name);
-    if (!exists) {
-      savedRoster.push(pokemon);
-      localStorage.setItem("pokemonRoster", JSON.stringify(savedRoster));
-    }
-    navigate("/myroster");
   };
 
   const isSelected = selected.includes(pokemon.name);
@@ -147,7 +137,7 @@ export const PokemonDetails = () => {
             </div>
           </div>
           <div className="flex gap-8 flex-wrap md:flex-nowrap">
-            {pokemonAlt === null && (
+            {pokemonAlt === null && !isAuthenticated && (
               <button
                 onClick={() => toggleSelect(name)}
                 className={`p-3 mt-1 w-full rounded-lg shadow bg-white capitalize text-gray-700 font-semibold text-lg cursor-pointer hover:bg-gray-100 ${
