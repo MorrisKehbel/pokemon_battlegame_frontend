@@ -1,8 +1,13 @@
-import { getPokemon } from "./getPokemon";
+import { getPokemon, getTeam } from "./getPokemon";
 
 export const pokemonsQuery = (amount) => ({
   queryKey: ["pokemons", amount],
   queryFn: ({ signal }) => getPokemon(amount, signal),
+});
+
+export const teamQuery = (ids) => ({
+  queryKey: ["team", ids],
+  queryFn: ({ signal }) => getTeam(ids, signal),
 });
 
 export const loadPokemons =

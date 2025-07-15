@@ -42,6 +42,9 @@ export const getPokemon = async (amount, abortSignal) => {
 };
 
 export const getTeam = async (ids, abortSignal) => {
+  if (!Array.isArray(ids) || ids.length === 0) return [];
+  console.log("test");
+
   try {
     const pokemons = await Promise.all(
       ids.map(async (id) => {

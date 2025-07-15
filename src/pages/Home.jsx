@@ -1,5 +1,4 @@
-import { Suspense, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Suspense } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { PulseLoader } from "react-spinners";
 
@@ -16,22 +15,6 @@ export const Home = () => {
     checkSession,
     setCheckSession,
   } = usePlayer();
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!checkSession && isAuthenticated) {
-      navigate("/battle", { replace: true });
-    }
-  }, [checkSession, isAuthenticated, navigate]);
-
-  // if (checkSession) {
-  //   return (
-  //     <main className="min-h-screen flex items-center justify-center">
-  //       <PulseLoader />
-  //     </main>
-  //   );
-  // }
 
   const startBattle = async (e) => {
     try {
@@ -72,7 +55,7 @@ export const Home = () => {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
+    <main className="w-full flex items-center justify-center bg-[url('/bg_image.webp')] bg-cover bg-center p-8">
       <ToastContainer />
       <div className="max-w-7xl w-full flex flex-col mx-auto bg-white/80 backdrop-blur-md border border-white p-8 rounded-4xl space-y-12 shadow-lg">
         <div className="w-full max-w-xl flex flex-col justify-center mx-auto">
@@ -109,11 +92,14 @@ export const Home = () => {
         <div className="mx-auto">
           <button
             onClick={startBattle}
-            disabled={selected.length < 6 || checkSession}
+            disabled={
+              selected.length < 6 || checkSession || isAuthenticated === null
+            }
             className="px-8 py-4 bg-red-600 text-white rounded-full text-xl font-semibold shadow-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-default cursor-pointer"
           >
-            {checkSession && <PulseLoader size={8} />}
-            {!checkSession && `Start Battle (${selected.length}/6)`}
+            {(checkSession && <PulseLoader size={8} />) ||
+              (isAuthenticated === null && "no server connection") ||
+              (!checkSession && `Start Battle (${selected.length}/6)`)}
           </button>
         </div>
       </div>

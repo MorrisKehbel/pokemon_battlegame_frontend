@@ -16,6 +16,7 @@ import {
 } from "./pages/index";
 
 import { MainLayout } from "./layouts/MainLayout";
+import { usePlayer } from "./context/index";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,13 +27,14 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const { isAuthenticated } = usePlayer();
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} />
+        <Route index element={isAuthenticated ? <Battle /> : <Home />} />
         <Route path="/pokemon/:name" element={<PokemonDetails />} />
         <Route path="/myroster" element={<Roster />} />
-        <Route path="/battle" element={<Battle />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Route>
     )

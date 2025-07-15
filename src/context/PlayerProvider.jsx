@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
 
 import { PlayerContext } from ".";
 import { me, signout } from "../data/auth";
 
 export const PlayerProvider = ({ children }) => {
-  const navigate = useNavigate();
-
   const [playerName, setPlayerName] = useState("");
   const [selected, setSelected] = useState([]);
 
@@ -18,7 +16,6 @@ export const PlayerProvider = ({ children }) => {
     await signout();
     setIsAuthenticated(false);
     setUser(null);
-    navigate("/", { replace: true });
   };
 
   useEffect(() => {
@@ -29,7 +26,20 @@ export const PlayerProvider = ({ children }) => {
         setUser(data);
         setIsAuthenticated(true);
       } catch (error) {
-        console.error(error);
+        if (error instanceof TypeError && error.message === "Failed to fetch") {
+          console.error(error);
+          toast.error("Failed connection to server", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            progress: undefined,
+            theme: "light",
+          });
+          setIsAuthenticated(null);
+          return;
+        }
+        setIsAuthenticated(false);
       } finally {
         setCheckSession(false);
       }
