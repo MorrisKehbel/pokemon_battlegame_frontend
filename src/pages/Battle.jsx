@@ -21,7 +21,7 @@ export const Battle = () => {
   });
 
   useEffect(() => {
-    if (!user.enemy || user.enemy.length === 0) {
+    if (user.enemy.length === 0) {
       (async () => {
         try {
           const enemy = await getPokemon(6);
@@ -40,7 +40,7 @@ export const Battle = () => {
         }
       })();
     }
-  }, []);
+  }, [user]);
 
   const startRound = async (e) => {
     e.preventDefault();
