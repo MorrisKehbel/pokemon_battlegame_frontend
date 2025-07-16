@@ -10,10 +10,10 @@ export const ActivePokemon = ({ pokemons, hp, hit }) => {
 
   return (
     <div className="relative grid grid-cols-1 grid-rows-1 bg-white/50 rounded-xl max-w-4xl">
-      <AnimatePresence>
-        {hit > 0 && (
+      <AnimatePresence initial={false}>
+        {hit && (
           <motion.span
-            key={hit}
+            key={hit.id}
             initial={{ y: -10, opacity: 1, scale: 1 }}
             animate={{ y: -40, opacity: 0, scale: 1.2 }}
             exit={{ opacity: 0 }}
@@ -21,7 +21,7 @@ export const ActivePokemon = ({ pokemons, hp, hit }) => {
             className="absolute left-1/2 -translate-x-1/2 -top-4
                        text-red-500 text-6xl font-extrabold drop-shadow"
           >
-            -{hit}
+            -{hit.amount}
           </motion.span>
         )}
       </AnimatePresence>
