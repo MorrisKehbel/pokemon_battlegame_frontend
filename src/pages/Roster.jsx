@@ -22,12 +22,18 @@ export const Roster = () => {
     );
   }
 
-  const updatePokemon = async (pokemon) => {
-    const newPokemon = await getPokemon(1);
+  const fetchUniquePokemon = async (excludeNames, maxRetries = 10) => {
+    for (let i = 0; i < maxRetries; i++) {
+      const [poke] = await getPokemon(1);
+      const name = poke.pokemon.name;
+      if (!excludeNames.includes(name)) return name;
+    }
+  };
 
-    const updated = user.team.map((n) =>
-      n === pokemon ? newPokemon[0].pokemon.name : n
-    );
+  const updatePokemon = async (pokemon) => {
+    const newPokemon = await fetchUniquePokemon(user.team);
+
+    const updated = user.team.map((n) => (n === pokemon ? newPokemon : n));
 
     const data = await updateLeaderboard(user._id, {
       username: user.username,
