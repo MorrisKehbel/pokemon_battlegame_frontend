@@ -65,6 +65,11 @@ export const Battle = () => {
     }
   };
 
+  const handleNewGame = () => {
+    const ok = window.confirm("Do you really want do start a new game?");
+    if (ok) resetFight();
+  };
+
   useEffect(() => {
     if (user.enemy?.length > 0) {
       (async () => {
@@ -83,7 +88,7 @@ export const Battle = () => {
       <div className=" max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 space-y-8 md:space-y-0 justify-between items-center bg-white/80 backdrop-blur-md border border-white rounded-xl px-8 py-4 md:rounded-4xl shadow-lg">
         <button
           className="px-8 py-4 bg-rose-600 text-white rounded-full text-xl font-semibold shadow-lg hover:bg-rose-700 cursor-pointer mx-auto"
-          onClick={() => resetFight()}
+          onClick={() => handleNewGame()}
         >
           New Game
         </button>
