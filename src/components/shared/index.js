@@ -1,4 +1,4 @@
 import { Navbar } from "./Navbar";
-import { Error } from "./Error";
+import { ErrorFallback } from "./ErrorFallback";
 
-export { Navbar, Error };
+export { Navbar, ErrorFallback };
