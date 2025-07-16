@@ -25,6 +25,8 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
   // const [kills, setKills] = useState(0);
   const [allDefeated, setAllDefeated] = useState(false);
 
+  const playerHitIdRef = useRef(0);
+  const enemyHitIdRef = useRef(0);
   const pHpRef = useRef(playerHP);
   const eHpRef = useRef(enemyHP);
   const pIdxRef = useRef(playerIdx);
@@ -72,8 +74,12 @@ export function useBattleLogic(playerTeam = [], enemyTeam = [], tick = 1000) {
       setPlayerHP([...pHpRef.current]);
       setEnemyHP([...eHpRef.current]);
 
-      setPlayerHit(hitP);
-      setEnemyHit(hitE);
+      playerHitIdRef.current += 1;
+      setPlayerHit({ id: playerHitIdRef.current, amount: hitP });
+
+      enemyHitIdRef.current += 1;
+      setEnemyHit({ id: enemyHitIdRef.current, amount: hitE });
+
       setTimeout(() => setPlayerHit(0), 600);
       setTimeout(() => setEnemyHit(0), 600);
 
